@@ -14,7 +14,6 @@ warnings.filterwarnings("ignore")
 prot = md.load('fs-peptide.pdb')
 top = prot.topology
 
-
 selected_atm = [('O', 'C', 'CA', 'N', 'CB', 'CG', 'NE2'),('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'NE', 'NH1', 'NH2'), ('O', 'C', 'CA', 'CB', 'N'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OE2', 'CD', 'OE1'), ('O', 'C', 'CA', 'N'), ('O', 'C', 'CA', 'N', 'CG2', 'CB', 'OG1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CZ'), ('O', 'C', 'CA', 'N', 'CB', 'OG'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OD1', 'OD2'), ('O', 'C', 'CA', 'N', 'CB', 'CG1', 'CG2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OH'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD1', 'CD2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'OE1', 'NE2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'CE', 'NZ'), ('O', 'C', 'CA', 'N', 'CB', 'CG1', 'CG2', 'CD1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD1', 'CE2', 'CH2'), ('O', 'C', 'CA', 'N', 'CB', 'SG'), ('O', 'C', 'CA', 'CG'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'ND2', 'OD1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'SD', 'CE')]
 residues = ['HIS','ARG','ALA', 'GLU', 'GLY', 'THR', 'PHE', 'SER', 'ASP', 'VAL', 'TYR', 'LEU', 'GLN', 'LYS', 'ILE', 'TRP', 'CYS', 'PRO', 'ASN', 'MET']
 
@@ -74,6 +73,7 @@ for i in range(len(angle_ind)):
 dataset = pd.read_csv('training_dataset_bimodal_switches.csv')
 
 # Angle featurization
+
 ml_result = []
 for l in range(len(angles)):
     f = []
@@ -164,6 +164,7 @@ for l in range(len(angles)):
 
 
 # datapoints of all switch residues
+
 swt_ind = []
 for i in range(len(ml_result)):
     for j in range(len(ml_result[i])):
@@ -185,7 +186,6 @@ for item in swt_ind:
 
 # ANSR
 
-
 over = []
 for i in range(len(cmb_atm)):
     a = (cmb_atm[i][0], len(cmb_atm[i][1]))
@@ -196,9 +196,7 @@ for i in range(len(df)):
     a = df.iloc[i][2][0].split("-")[0]
     up.append(a)
 
-
 rep = [list(g) for _, g in groupby(up, lambda l: l)]
-
 
 residue_ANSR = []
 for i in range(len(rep)):
@@ -208,7 +206,6 @@ for i in range(len(rep)):
             b = str(a)+"/"+str(over[j][1])
             c = (rep[i][0], b)
     residue_ANSR.append(c)
-
 
 print("residue, ANSR : ", residue_ANSR)
 
