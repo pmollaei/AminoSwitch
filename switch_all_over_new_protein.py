@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import mdtraj as md
 import numpy as np
 import pandas as pd
@@ -17,53 +11,30 @@ from itertools import groupby
 import warnings
 warnings.filterwarnings("ignore")
 
-
-# In[2]:
-
-
 prot = md.load('fs-peptide.pdb')
 top = prot.topology
 
 
-# In[3]:
-
-
 selected_atm = [('O', 'C', 'CA', 'N', 'CB', 'CG', 'NE2'),('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'NE', 'NH1', 'NH2'), ('O', 'C', 'CA', 'CB', 'N'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OE2', 'CD', 'OE1'), ('O', 'C', 'CA', 'N'), ('O', 'C', 'CA', 'N', 'CG2', 'CB', 'OG1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CZ'), ('O', 'C', 'CA', 'N', 'CB', 'OG'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OD1', 'OD2'), ('O', 'C', 'CA', 'N', 'CB', 'CG1', 'CG2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'OH'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD1', 'CD2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'OE1', 'NE2'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD', 'CE', 'NZ'), ('O', 'C', 'CA', 'N', 'CB', 'CG1', 'CG2', 'CD1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'CD1', 'CE2', 'CH2'), ('O', 'C', 'CA', 'N', 'CB', 'SG'), ('O', 'C', 'CA', 'CG'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'ND2', 'OD1'), ('O', 'C', 'CA', 'N', 'CB', 'CG', 'SD', 'CE')]
 residues = ['HIS','ARG','ALA', 'GLU', 'GLY', 'THR', 'PHE', 'SER', 'ASP', 'VAL', 'TYR', 'LEU', 'GLN', 'LYS', 'ILE', 'TRP', 'CYS', 'PRO', 'ASN', 'MET']
-
-
-# In[4]:
-
 
 #combinations of three atoms within each residue
 cmb_atm = []
 for i in range(len(residues)):
     c_atm = (residues[i], list(it.combinations(selected_atm[i], 3)))
     cmb_atm.append(c_atm)
-
-
-# In[5]:
-
-
+    
 # residue-atom (i.e HIS7-N) getting from .pdb files
 residue_atom = []
 for res in top.atoms:
     residue_atom.append(str(res))
-
-
-# In[6]:
-
 
 # groups of unique residues
 res = [list(i) for j, i in groupby(residue_atom, lambda a: a.split('-')[0])]
 unq_res = []
 for r in range(len(res)):
     unq_res.append(res[r][0].split('-')[0])
-
-
-# In[7]:
-
-
+    
 angle_ind = []
 for i in range(len(unq_res)):
     b = []
@@ -87,12 +58,7 @@ for i in range(len(unq_res)):
         angle_ind.append(b)
 
 
-#  
-
 # Switches for single Trajectory
-
-# In[8]:
-
 
 angles = []
 traj = md.load_dcd('fs_peptide15.dcd', top='fs-peptide.pdb')
@@ -105,14 +71,7 @@ for i in range(len(angle_ind)):
     angles.append(t)
 
 
-# In[9]:
-
-
 dataset = pd.read_csv('training_dataset_bimodal_switches.csv')
-
-
-# In[10]:
-
 
 # Angle featurization
 ml_result = []
@@ -204,9 +163,6 @@ for l in range(len(angles)):
         print(len(ml_result))
 
 
-# In[11]:
-
-
 # datapoints of all switch residues
 swt_ind = []
 for i in range(len(ml_result)):
@@ -215,15 +171,8 @@ for i in range(len(ml_result)):
             a = (i,j,angle_ind[i][0][j][1],angles[i][j])
             swt_ind.append(a)
 
-
-# In[12]:
-
-
 df = pd.DataFrame(swt_ind)
 df.columns = ['resid', 'angle_ndx', 'atom_ndx', 'angle_values']
-
-
-# In[13]:
 
 
 # list of switch residues
@@ -236,17 +185,11 @@ for item in swt_ind:
 
 # ANSR
 
-# In[14]:
-
 
 over = []
 for i in range(len(cmb_atm)):
     a = (cmb_atm[i][0], len(cmb_atm[i][1]))
     over.append(a)
-
-
-# In[15]:
-
 
 up = []
 for i in range(len(df)):
@@ -254,13 +197,7 @@ for i in range(len(df)):
     up.append(a)
 
 
-# In[16]:
-
-
 rep = [list(g) for _, g in groupby(up, lambda l: l)]
-
-
-# In[17]:
 
 
 residue_ANSR = []
@@ -273,16 +210,10 @@ for i in range(len(rep)):
     residue_ANSR.append(c)
 
 
-# In[18]:
-
-
 print("residue, ANSR : ", residue_ANSR)
 
 
 # ATSC
-
-# In[19]:
-
 
 t = []
 for i in range(len(df)):
@@ -291,15 +222,7 @@ for i in range(len(df)):
     c = (a, b)
     t.append(c)
 
-
-# In[20]:
-
-
 gp = [list(g) for _, g in groupby(t, lambda l: l[0])]
-
-
-# In[21]:
-
 
 tot = []
 for i in range(len(gp)):
@@ -308,10 +231,6 @@ for i in range(len(gp)):
         b.append(gp[i][j][1])
     c = (gp[i][j][0], np.reshape(b, -1))
     tot.append(c)
-
-
-# In[22]:
-
 
 residues_ATSC = []
 for i in range(len(tot)):
@@ -325,10 +244,6 @@ for i in range(len(tot)):
     d.sort(key = lambda x: x[1], reverse = True)
     e = (tot[i][0], d)
     residues_ATSC.append(e)
-
-
-# In[23]:
-
 
 print("residue, ATSC : ", residues_ATSC)
 
