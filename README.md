@@ -1,7 +1,6 @@
 # AminoSwitch
 You can find the datapoints and information for classified switch residues through β2AR receptor here: 
 https://drive.google.com/file/d/13Hmu9U-cHUlgrlKw9ow4ONeIZJtMuWgJ/view?usp=sharing
-
 The datapoints for switch residues across Fs_peptide protein is in switch_residues_Fs_peptide_traj#15.pkl file.
 The fs_peptide_trajectory.dcd.zip file contains the trajectory#15 downloaded from this resourse: https://doi.org/10.6084/m9.figshare.1030363.v1
 The resourse for β2AR receptor trajectories used in our study is: https://exhibits.stanford.edu/data/catalog/vp873ky1987
