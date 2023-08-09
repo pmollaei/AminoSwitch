@@ -6,6 +6,6 @@ The fs_peptide_trajectory.zip file contains the trajectory#15 downloaded from th
 The resourse for β2AR receptor trajectories used in our study is: https://exhibits.stanford.edu/data/catalog/vp873ky1987
 You can find all the switch residues within any protein with this script: switch_all_over_new_protein.py
 where the training dataset for the ML classifies is provided in this dataset: training_dataset_bimodal_switches.csv
-The conformation structures used in our study for Fs-peptide and β2AR receptor are fs-peptide.pdb and B2_active_crystal_reference.pdb, respectively.
+The conformation structures used in our study for Fs-peptide and β2AR receptor are fs-peptide.pdb and b2_active_crystal_reference.pdb, respectively.
 The Instability Ratio.py script measures the Instability ratio for each angle dataset and the Logistic Regression model predic if it is SS or US residue.
 The training dataset for the Logistic Regression model is training_dataset_SS_US.csv
