@@ -8,8 +8,6 @@ from collections import Counter
 from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier
 from itertools import groupby
-import warnings
-warnings.filterwarnings("ignore")
 
 prot = md.load('fs-peptide.pdb')
 top = prot.topology
